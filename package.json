@@ -1,0 +1,25 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "Example Project on how to build and develop REST API with NodeJS with Express and Postgres",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon ./server.js localhost 3081",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.8",
+    "express": "^4.17.1",
+    "pg": "^8.7.3",
+    "pine": "^1.1.1",
+    "sequelize": "^6.17.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}

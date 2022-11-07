@@ -1,0 +1,82 @@
+name: nodejs
+description: A simple todo application built with Node.js, Express, a postgres database, and a static html page
+homepage: https://github.com/architect-templates/nodejs
+keywords:
+  - architect
+  - examples
+  - postgres
+  - express
+  - nodejs
+
+# Add secrets to be used by different services. For more information:
+# https://docs.architect.io/deployments/secrets/
+secrets:
+  db_user:
+    description: Root user to assign to the component's database
+    default: architect
+  db_pass:
+    description: Root password to assign to the component's database
+    default: secret
+  db_name:
+    description: Name of the database the component will store content in
+    default: api-db
+  db_port:
+    description: Port for the database
+    default: 5432
+  api_port:
+    description: Port for api
+    default: 8080
+
+services:
+  ### This service is the actual Node.js component ###
+  api:
+    # Build context is the location of your application relative to the architect.yml file
+    build:
+      context: .
+    depends_on:
+      - database
+    # Interface port used to help define the url in the `interfaces` block
+    interfaces:
+      http: ${{ secrets.api_port }}
+    # Set environment variables for your application here
+    environment:
+      DB_ADDR: ${{ services.database.interfaces.main.url }}/${{ secrets.db_name }}
+      DB_USER: ${{ secrets.db_user }}
+      DB_PASS: ${{ secrets.db_pass }}
+      PORT: ${{ secrets.api_port }}
+    # Debug block is used to enable hot-reloading to make real-time changes to an
+    #   application while running `architect dev`. For more info, see -
+    #   https://docs.architect.io/components/local-configuration/#hot-reloading
+    debug:
+      command: npm run dev
+      build:
+        args:
+          NODE_ENV: development
+      volumes:
+        src:
+          # The `WORKDIR` defined in the Dockerfile (/usr/src/app)
+          mount_path: /usr/src/app
+          # Path to source code relative to the architect.yml file
+          host_path: .
+  # Database service
+  database:
+    image: postgres:12
+    interfaces:
+      main:
+        port: ${{ secrets.db_port }}
+        protocol: postgresql
+    environment:
+      POSTGRES_USER: ${{ secrets.db_user }}
+      POSTGRES_PASSWORD: ${{ secrets.db_pass }}
+      POSTGRES_DB: ${{ secrets.db_name }}
+
+# interfaces are used to expose our application to the gateway, allowing
+#   other services and dependencies to connect to one another.
+#   For more info - https://docs.architect.io/components/interfaces/
+interfaces:
+  # Interface for our main Node.js application
+  api:
+    description: A description
+    url: ${{ services.api.interfaces.http.url }}
+    ingress:
+      subdomain: api
