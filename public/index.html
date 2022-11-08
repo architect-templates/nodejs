@@ -25,13 +25,6 @@
                         <p>You've deployed your app locally. Now what?</p>
                         <p>Below are additional steps you can try out with your newly deployed <a target="_blank" rel="noreferrer" href='https://docs.architect.io/tutorial/create-component/'>component</a>.</p>
                         <ul>
-                            <li>Check out your todo app by clicking on the <b>Create todo</b> button to create a default todo. Then click on the <b>Show todo</b> button to fetch that todo from the database.</li>
-                            <div id="container">
-                              <button id="button1" onclick="createTodo()">Create todo</button>
-                              <div style="margin-top: 10px"></div>
-                              <button id="button2" onclick="showTodo()">Show todo</button>
-                            </div>
-                            <div style="margin-bottom: 10px" id="todo"></div>
                             <li>Check out Hot-reloading</li>
                                 <ol>
                                     <li>Go to <kbd class='cmp_input'>public/index.html</kbd> in your project folder and open it.</li>
@@ -48,6 +41,17 @@
                         </ul>
                     </div>
                 </div>
+            </div>
+            <div style="margin: 40px">
+                <p>Check out your todo app by clicking on the <b>Create todo</b> button 
+                  to create a default todo. Then click on the <b>Show todo</b> 
+                  button to fetch that todo from the database.</p>
+                <div id="container">
+                  <button id="button1" onclick="createTodo()">Create todo</button>
+                  <div style="margin-top: 10px"></div>
+                  <button id="button2" onclick="showTodo()">Show todo</button>
+                </div>
+                <div style="margin-bottom: 10px" id="todo"></div>
             </div>
         </div>
       <script>
