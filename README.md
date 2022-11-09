@@ -51,6 +51,9 @@ Once the deployment has completed, you can reach your new service by going to ht
 $ git clone git@github.com:architect-templates/nodejs.git
 $ cd ./nodejs
 
+# Install node packages
+$ npm i
+
 # Deploy locally using the dev command
 $ architect dev architect.yml
 ```

@@ -4,9 +4,9 @@
   "description": "Example Project on how to build and develop REST API with NodeJS with Express and Postgres",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon -L ./server.js -e html,js",
+    "dev": "nodemon -L ./src/server.js -e html,js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./server.js"
+    "start": "node ./src/server.js"
   },
   "keywords": [],
   "author": "",
