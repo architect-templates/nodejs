@@ -38,6 +38,12 @@ services:
     # Interface port used to help define the url in the `interfaces` block
     interfaces:
       http: ${{ secrets.api_port }}
+    # The liveness_probe makes sure the application is healthy - if not, it will re-start the application
+    liveness_probe:
+      command: curl --fail 0.0.0.0:8080
+      initial_delay: 15s
+      interval: 30s
+      failure_threshold: 3
     # Set environment variables for your application here
     environment:
       DB_ADDR: ${{ services.database.interfaces.main.url }}/${{ secrets.db_name }}
