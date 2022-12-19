@@ -35,9 +35,11 @@ services:
       context: .
     depends_on:
       - database
-    # Interface port used to help define the url in the `interfaces` block
     interfaces:
-      http: ${{ secrets.api_port }}
+      main:
+        port: ${{ secrets.api_port }}
+        ingress:
+          subdomain: api
     # The liveness_probe makes sure the application is healthy - if not, it will re-start the application
     liveness_probe:
       command: curl --fail 0.0.0.0:8080
@@ -74,14 +76,3 @@ services:
       POSTGRES_USER: ${{ secrets.db_user }}
       POSTGRES_PASSWORD: ${{ secrets.db_pass }}
       POSTGRES_DB: ${{ secrets.db_name }}
-
-# interfaces are used to expose our application to the gateway, allowing
-#   other services and dependencies to connect to one another.
-#   For more info - https://docs.architect.io/components/interfaces/
-interfaces:
-  # Interface for our main Node.js application
-  api:
-    description: A description
-    url: ${{ services.api.interfaces.http.url }}
-    ingress:
-      subdomain: api
