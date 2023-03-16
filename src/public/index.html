@@ -6,94 +6,78 @@
     </head>
     <body>
         <div class="container">
-            <!-- <h1>Uncomment me to see hot reloading in action!</h1> -->
-            <p>
+            <p align="center">
                 <a href="//architect.io" target="blank">
-                    <img 
-                        src="https://cdn.architect.io/logo/horizontal.png" 
-                        width="320" 
-                        alt="Architect Logo" 
+                    <img
+                        src="https://cdn.architect.io/logo/horizontal.png"
+                        width="320"
+                        alt="Architect Logo"
                     />
                 </a>
             </p>
-            <div class="card">
-                <div class="card-container">
-                    <div id="card-header">
-                        <h4><b>Congratulations!</b></h4>
-                    </div>
-                    <div class="card-content">
-                        <p>You've deployed your app locally. Now what?</p>
-                        <p>Below are additional steps you can try out with your newly deployed <a target="_blank" rel="noreferrer" href='https://docs.architect.io/tutorial/create-component/'>component</a>.</p>
-                        <ul>
-                            <li>Check out Hot-reloading</li>
-                                <ol>
-                                    <li>Go to <kbd class='cmp_input'>src/public/index.html</kbd> in your project folder and open it.</li>
-                                    <li>Uncomment line 9 to show the h1 tag, and save the file.</li>
-                                    <li>The app will automatically apply the new changes! For more info, checkout out our <a target="_blank" rel="noreferrer" href="https://docs.architect.io/">docs</a>.</li>
-                                </ol>
-                            <br/>
-                            <li>Deploy your app to the cloud via Architect <b>(Recommended)</b></li>
-                                <ol>
-                                    <li>Login or register a new Architect account for free at <a target="_blank" rel="noreferrer" href="https://cloud.architect.io/signup">architect.io</a></li>
-                                    <li>Authenticate using the CLI by running the command <kbd class="cmp_input">architect login</kbd></li>
-                                    <li>Deploy your app to the cloud using the command <kbd class="cmp_input">architect deploy</kbd></li>
-                                </ol>
-                        </ul>
-                    </div>
-                </div>
-            </div>
             <div style="margin: 40px">
-                <p>Check out your todo app by clicking on the <b>Create todo</b> button 
-                  to create a default todo. Then click on the <b>Show todo</b> 
-                  button to fetch that todo from the database.</p>
                 <div id="container">
-                  <button id="button1" onclick="createTodo()">Create todo</button>
-                  <div style="margin-top: 10px"></div>
-                  <button id="button2" onclick="showTodo()">Show todo</button>
+                  <form action="javascript:createItem(formName.value, formRating.value)">
+                    <h1>Favorite Movie</h1>
+                    <div class="user_inputs">
+                      <input placeholder="Name*" type="text" id="formName" name="name" class="form-control" value="" minlength="1"
+                        maxlength="80" required>
+                      <input placeholder="Rating 1-5*" type="number" id="formRating" name="rating" class="form-control" value="" min="1"
+                        max="5" required>
+                    </div>
+                    <div class="d-grid gap-2">
+                      <button type="submit">
+                        Submit
+                      </button>
+                    </div>
+                  </form>
                 </div>
-                <div style="margin-bottom: 10px" id="todo"></div>
+                <div style="margin-bottom: 10px" id="itemList"></div>
             </div>
         </div>
       <script>
-        function createTodo() {
-          const xhr = new XMLHttpRequest()
+        function createItem(name, rating) {
+          const xhr = new XMLHttpRequest();
           const params = {
-            "todo": {
-              name: "Buy grocery",
-              description: "Milk and honey",
-              createdby: "Architect"
+            "item": {
+              name,
+              rating
             }
           };
-          xhr.open("POST", "/api/todo");
+          xhr.open("POST", "/api/item");
           xhr.setRequestHeader("Content-Type", "application/json");
           xhr.send(JSON.stringify(params));
 
-          document.getElementById("button1").disabled = true;
+          showItems();
         }
 
-        function createTodoElement(name, description, createDate) {
-          return `<tr><td>${name}</td><td>${description}</td><td>${createDate}</td></tr>`;
+        function createItemElement(name, rating) {
+          return `<tr><td>${name}</td><td>${rating}</td></tr>`;
         }
 
-        function buildTodoList(data) {
-          let todoElements = data.map(ele => createTodoElement(ele.name, ele.description, ele.createdate)); 
-          return `<table><tr><th>Todo</th><th>Description</th><th>Created date</th></tr>${todoElements}</table>`;
+        function buildItemList(data) {
+          let itemElements = data.reduce((output, ele) => output += createItemElement(ele.name, ele.rating), '');
+          return `<table><tr><th>Name</th><th>Rating</th></tr>${itemElements}</table>`;
         }
 
-        function showTodo() {
+        function showItems() {
           const xhr = new XMLHttpRequest()
           xhr.onload = () => {
             if (xhr.status == 200) {
               let data = JSON.parse(xhr.response);
-              console.log("Data = ", data);
-              document.getElementById("todo").innerHTML = buildTodoList(data);
+              let itemList = buildItemList(data);
+              document.getElementById("itemList").innerHTML = itemList;
             } else {
               console.error('Error!')
             }
           }
-          xhr.open("GET", "/api/todos")
+          xhr.open("GET", "/api/item")
           xhr.send()
         }
+
+        window.addEventListener('load', function () {
+          showItems();
+        });
       </script>
     </body>
 </html>

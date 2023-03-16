@@ -1,5 +1,7 @@
 name: nodejs
-description: A simple todo application built with Node.js, Express, a postgres database, and a static html page
+description: |
+  Example component that includes a NodeJS server that renders templates
+  and allows creation of items in a database
 homepage: https://github.com/architect-templates/nodejs
 keywords:
   - architect
