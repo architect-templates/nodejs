@@ -57,16 +57,16 @@ services:
     #   application while running `architect dev`. For more info, see -
     #   https://docs.architect.io/components/local-configuration/#hot-reloading
     debug:
-      command: sh -c 'npm install && npm run dev'
+      command: npm run dev
       build:
         args:
           NODE_ENV: development
       volumes:
         src:
-          # The `WORKDIR` defined in the Dockerfile (/usr/src/app)
-          mount_path: /usr/src/app
+          # The `WORKDIR` defined in the Dockerfile (/usr/src/app) + src
+          mount_path: /usr/src/app/src
           # Path to source code relative to the architect.yml file
-          host_path: .
+          host_path: ./src
   # Database service
   database:
     image: postgres:12
