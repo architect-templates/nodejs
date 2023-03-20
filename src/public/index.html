@@ -56,8 +56,12 @@
         }
 
         function buildItemList(data) {
-          let itemElements = data.reduce((output, ele) => output += createItemElement(ele.name, ele.rating), '');
-          return `<table><tr><th>Name</th><th>Rating</th></tr>${itemElements}</table>`;
+          if (data.length > 0) {
+            let itemElements = data.reduce((output, ele) => output += createItemElement(ele.name, ele.rating), '');
+            return `<table><tr><th>Name</th><th>Rating</th></tr>${itemElements}</table>`;
+          } else {
+            return '<p>No entries found</p>';
+          }
         }
 
         function showItems() {
