@@ -1,5 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const favicon = require("serve-favicon");
+const path = require("path");
 require("dotenv").config();
 
 const itemController = require("./controller/item.controller");
@@ -9,6 +11,7 @@ const port = process.env.PORT || 3000;
 
 app.set("port", process.env.PORT || 5000);
 app.use(express.static(__dirname + "/public"));
+app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
 app.set("views", __dirname + "/public");
 app.engine("html", require("ejs").renderFile);
 app.set("view engine", "html");
