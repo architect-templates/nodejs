@@ -84,8 +84,7 @@ within the component. That means you can make changes to the source code and tho
 environment automatically. This allows you to quickly iterate and see your changes without having to restart the
 application stack.
 
-Give it a try! Search inside your project for “Favorite Movie” and change this string to "Favorite Pizza" Once you save
-the file, you’ll see the frontend service recompiling in the logs and then your browser window will update automatically.
+Give it a try! Search inside your project for “Favorite Movie” and change this string to "Favorite Pizza." Once you've saved the file, refresh your browser to see the changes.
 
 ## Deploy to the Cloud
 Want to try deploying this application to a cloud environment? Architect's got you covered there, too!
