@@ -6,29 +6,15 @@ class ItemRepository {
 
   constructor() {
     this.db = connect();
-    this.db.sequelize.sync({ force: false }).then(() => {
-      console.log("DB synced");
-    });
+    this.db.sequelize.sync({ force: false });
   }
 
   async getItems() {
-    try {
-      const items = await this.db.items.findAll();
-      return items;
-    } catch (err) {
-      console.log(err);
-      return [];
-    }
+    return this.db.items.findAll();
   }
 
   async createItem(item) {
-    let data = {};
-    try {
-      data = await this.db.items.create(item);
-    } catch (err) {
-      logger.error("Error: " + err);
-    }
-    return data;
+    return this.db.items.create(item);
   }
 }
 

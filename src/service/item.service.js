@@ -4,11 +4,11 @@ class ItemService {
   constructor() {}
 
   async getItems() {
-    return await itemRepository.getItems();
+    return itemRepository.getItems();
   }
 
   async createItem(item) {
-    return await itemRepository.createItem(item);
+    return itemRepository.createItem(item);
   }
 }
 

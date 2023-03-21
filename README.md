@@ -122,6 +122,6 @@ You are now ready to deploy your component to your environment in Architect's co
 run the following command from the `nodejs` directory:
 
 ```sh
-$ architect deploy --account <account-name> --environment my-first-environment ./architect.yml
+$ architect deploy ./architect.yml --account <account-name> --environment my-first-environment
 ```
 Congrats! You've deployed your first component using Architect.
