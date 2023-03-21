@@ -9,7 +9,7 @@ html {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  
+
 }
 
 body {
@@ -65,7 +65,7 @@ h4 {
   margin-top: 1.5rem !important;
   margin-right: auto;
   margin-left: auto;
-  max-width: 85%;
+  max-width: 444px;
 }
 
 .card {
@@ -149,7 +149,7 @@ input {
 }
 
 button {
-  background-color: rgb(34, 85, 96); 
+  background-color: rgb(34, 85, 96);
   border: none;
   color: #FFF;
   cursor: pointer;
@@ -161,11 +161,11 @@ button {
   display: inline-block;
   line-height: 1.5;
   font-weight: 400;
-  transition: color .15s 
-    ease-in-out,background-color 
-    .15s ease-in-out,border-color 
-    .15s ease-in-out,box-shadow 
-    .15s ease-in-out;  
+  transition: color .15s
+    ease-in-out,background-color
+    .15s ease-in-out,border-color
+    .15s ease-in-out,box-shadow
+    .15s ease-in-out;
 }
 
 table {
@@ -199,4 +199,14 @@ th, td {
 @font-face {
   font-family: Arimo;
   src: url("https://fonts.googleapis.com/css2?family=Arimo");
+}
+
+.form-control {
+  display: inline-block;
+  width: calc(50% - 3px);
+}
+
+.user_inputs {
+  margin-bottom: 1rem;
+  text-align: center;
 }

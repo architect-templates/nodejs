@@ -5,7 +5,8 @@ RUN apk --no-cache add curl
 WORKDIR /usr/src/app
 
 COPY package*.json ./
-RUN npm install
-COPY . .
+RUN npm ci
+
+COPY src/ src/
 
 CMD [ "npm", "run", "start" ]

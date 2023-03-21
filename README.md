@@ -11,61 +11,116 @@
 </p>
 
 ---
-# Running Node.js on Architect
-In this example, you'll learn how to capture an app written with Node.js, Express, and a [Postgres](https://www.postgresql.org/)
-database as a [dependency](https://docs.architect.io/components/dependencies/) using Architect to enable automated deployments, networking and network security for your application - wherever it gets deployed.
 
-In the `architect.yml` file for this project, we describe this app as two deployable services. However, we also
-leverage Architect's [service discovery](//docs.architect.io/components/service-discovery) features to populate environment
-secrets by reference. This not only allows us to automatically connect the services to each other, but it also allows
-Architect to build strict network policies to whitelist the traffic between these services. Now we won't have any work ahead
-of us to promote this stack from local dev all the way through to production!
+<p align="center">
+  <a href="//nodejs.org" target="blank"><img src="/nodejs_logo.png" width="320" alt="node Logo" /></a>
+</p>
 
-[Learn more about the architect.yml file](//docs.architect.io/configuration)
+---
 
-## Using the API
-This API implements basic CRUD functionality for a simple `Todos` schema consisting of a `name`, a `description`, `createdate`, `createdby`, and `updateddate`.
-Use the data below as part of a `post` request to `/api/todo` to populate your todo list.
 
-### The `Todos` Schema:
+# NodeJS Starter Project
 
+This project is an example application written in [NodeJS](https://nodejs.org/) with a [Postgres](https://www.postgresql.org/) database backend packaged into an Architect component.
+
+This starter application will show how easy it is to deploy an application both locally and in a remote environment.
+
+## Pre-reqs
+* Install [Docker](https://docs.docker.com/get-docker/) and make sure it's running
+* Install the [Architect CLI](https://github.com/architect-team/architect-cli)
+* [Sign up for a free Architect account](https://cloud.architect.io/signup)
+
+## Clone the repo
+You can clone this repo yourself or use the `architect init` command to use this project.
+
+### Use `architect init`
+You can clone this repo locally using the `architect init` command. A drop-down list of Starter Projects is
+displayed for you to select from.
+
+```bash
+$ architect init
+? What is the name of your project? my-starter-project
+? Please select a framework/language for your project NodeJS
+
+######################################
+##### Let's set up your project! #####
+######################################
+
+Creating project directory... ✓
+Pulling down GitHub repository... ✓ nodejs
+
+Successfully created project my-starter-project.
+
+Your project is ready to be deployed by Architect!
+To deploy locally, run:
+  architect dev my-starter-project/architect.yml
 ```
-  {
-    "todo": {
-      name: "Buy grocery",
-      description: "Milk and honey",
-      createdby: "Architect"
-    }
-  }
+
+```sh
+$ cd ./my-starter-project
 ```
 
-## Running Locally
-The `architect.yml` file is declarative, which allows the Architect Component it describes to be run in any environment,
-from local development all the way to production. Follow these steps to clone this repository and run the application
-locally.
-
-Once the deployment has completed, you can reach your new service by going to https://api.localhost.architect.sh.
+### Clone it yourself
+Run the following command to clone the repo yourself:
 
 ```sh
 # Clone the repository and navigate to this directory
 $ git clone git@github.com:architect-templates/nodejs.git
 $ cd ./nodejs
-
-# Install node packages
-$ npm i
-
-# Deploy locally using the dev command
-$ architect dev architect.yml
 ```
 
-## Deploying to the Cloud
-
-Want to try deploying this to a cloud environment? Architect's got you covered there, too! It only takes a minute to
-[sign up for a free account](https://cloud.architect.io/signup).
-
-You can then [deploy the application](https://docs.architect.io/getting-started/introduction/#deploy-to-the-cloud) by running the command below. Note that “example-environment” is the free environment that is created with your Architect account.
+## Run Locally
+Once the repo has been cloned to your local machine, execute the following command from the `nodejs` directory to run it locally:
 
 ```sh
-# Deploy to Architect Cloud
-$ architect deploy architect.yml -e example-environment
+$ architect dev .
 ```
+
+When this command completes, you can reach your new application at https://app.localhost.architect.sh.
+### Make your own changes
+
+This application's `architect.yml` file contains a `debug` block that enables hot-reloading for each service
+within the component. That means you can make changes to the source code, which will automatically apply to the environment. This lets you quickly iterate and see your changes without restarting the
+application stack.
+
+Give it a try! Search inside your project for “Favorite Movie” and change this string to "Favorite Pizza." Once you've saved the file, refresh your browser to see the changes.
+
+## Deploy to the Cloud
+Do you want to try deploying this application to a cloud environment? Architect's got you covered there, too!
+We offer free preview environments in our community cloud where you can deploy your applications
+before deploying to staging or prod. This is an excellent opportunity for testing and getting early feedback before merging
+your code. You can [configure your GitOps](https://docs.architect.io/tutorial/creating-a-component)
+to automatically deploy every PR to Architect's community cloud.
+
+### Create an environment
+
+To create a new environment on Architect's
+free cloud, run the following command:
+
+```sh
+$ architect environments:create my-first-environment
+```
+This command presents you with a list of Kubernetes clusters. Since you haven't added external clusters to your
+account, you should only see `architect`. Hit enter to create your environment on Architect's community cloud.
+
+```sh
+? Select a cluster (Use arrow keys or type to search)
+❯  architect
+```
+When the command completes, you should see output similar to the following:
+```sh
+$ architect environments:create my-first-environment
+? Select a cluster architect
+Registering environment with Architect... done
+Environment created: https://cloud.architect.io/<account-name>/environments/my-first-environment
+```
+
+### Deploy your component
+
+You are ready to deploy your component to your environment in Architect's community cloud. To deploy your component,
+run the following command from the `nodejs` directory:
+
+```sh
+$ architect deploy ./architect.yml --account <account-name> --environment my-first-environment
+```
+Congrats! You've deployed your first component using Architect.

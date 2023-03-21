@@ -1,5 +1,7 @@
 name: nodejs
-description: A simple todo application built with Node.js, Express, a postgres database, and a static html page
+description: |
+  Example component that includes a NodeJS server that renders templates
+  and allows creation of items in a database
 homepage: https://github.com/architect-templates/nodejs
 keywords:
   - architect
@@ -19,17 +21,17 @@ secrets:
     default: secret
   db_name:
     description: Name of the database the component will store content in
-    default: api-db
+    default: app-db
   db_port:
     description: Port for the database
     default: 5432
-  api_port:
-    description: Port for api
+  app_port:
+    description: Port the app accepts connections on
     default: 8080
 
 services:
   ### This service is the actual Node.js component ###
-  api:
+  app:
     # Build context is the location of your application relative to the architect.yml file
     build:
       context: .
@@ -37,12 +39,12 @@ services:
       - database
     interfaces:
       main:
-        port: ${{ secrets.api_port }}
+        port: ${{ secrets.app_port }}
         ingress:
-          subdomain: api
+          subdomain: app
     # The liveness_probe makes sure the application is healthy - if not, it will re-start the application
     liveness_probe:
-      command: curl --fail 0.0.0.0:8080
+      command: curl --fail localhost:8080
       interval: 5s
       failure_threshold: 3
     # Set environment variables for your application here
@@ -50,7 +52,7 @@ services:
       DB_ADDR: ${{ services.database.interfaces.main.url }}/${{ secrets.db_name }}
       DB_USER: ${{ secrets.db_user }}
       DB_PASS: ${{ secrets.db_pass }}
-      PORT: ${{ secrets.api_port }}
+      PORT: ${{ secrets.app_port }}
     # Debug block is used to enable hot-reloading to make real-time changes to an
     #   application while running `architect dev`. For more info, see -
     #   https://docs.architect.io/components/local-configuration/#hot-reloading
@@ -61,10 +63,10 @@ services:
           NODE_ENV: development
       volumes:
         src:
-          # The `WORKDIR` defined in the Dockerfile (/usr/src/app)
-          mount_path: /usr/src/app
+          # The `WORKDIR` defined in the Dockerfile (/usr/src/app) + src
+          mount_path: /usr/src/app/src
           # Path to source code relative to the architect.yml file
-          host_path: .
+          host_path: ./src
   # Database service
   database:
     image: postgres:12
@@ -72,6 +74,10 @@ services:
       main:
         port: ${{ secrets.db_port }}
         protocol: postgresql
+    liveness_probe:
+      command: pg_isready -d ${{ secrets.db_name }} -U ${{ secrets.db_user }}
+      interval: 3s
+      failure_threshold: 3
     environment:
       POSTGRES_USER: ${{ secrets.db_user }}
       POSTGRES_PASSWORD: ${{ secrets.db_pass }}
